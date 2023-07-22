@@ -1,0 +1,636 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0031)http://www.560565.com/chatroom/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><script>
+(function() {
+    const FLASH_MIMETYPE = "application/x-shockwave-flash";
+    const FUTURESPLASH_MIMETYPE = "application/futuresplash";
+    const FLASH7_AND_8_MIMETYPE = "application/x-shockwave-flash2-preview";
+    const FLASH_MOVIE_MIMETYPE = "application/vnd.adobe.flash.movie";
+    const FLASH_ACTIVEX_CLASSID = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000";
+
+    class RuffleMimeTypeArray {
+        constructor(mimeTypes) {
+            this.__mimeTypes = [];
+            this.__namedMimeTypes = {};
+            if (mimeTypes) {
+                for (let i = 0; i < mimeTypes.length; i++) {
+                    this.install(mimeTypes[i]);
+                }
+            }
+        }
+        install(mimeType) {
+            const index = this.__mimeTypes.length;
+            this.__mimeTypes.push(mimeType);
+            this.__namedMimeTypes[mimeType.type] = mimeType;
+            this[mimeType.type] = mimeType;
+            this[index] = mimeType;
+        }
+        item(index) {
+            // This behavior is done to emulate a 32-bit uint,
+            // which browsers use.
+            return this.__mimeTypes[index >>> 0];
+        }
+        namedItem(name) {
+            return this.__namedMimeTypes[name];
+        }
+        get length() {
+            return this.__mimeTypes.length;
+        }
+        [Symbol.iterator]() {
+            return this.__mimeTypes[Symbol.iterator]();
+        }
+    }
+    class RufflePlugin extends RuffleMimeTypeArray {
+        constructor(name, description, filename) {
+            super();
+            this.name = name;
+            this.description = description;
+            this.filename = filename;
+        }
+    }
+    class RufflePluginArray {
+        constructor(plugins) {
+            this.__plugins = [];
+            this.__namedPlugins = {};
+            for (let i = 0; i < plugins.length; i++) {
+                this.install(plugins[i]);
+            }
+        }
+        install(plugin) {
+            const index = this.__plugins.length;
+            this.__plugins.push(plugin);
+            this.__namedPlugins[plugin.name] = plugin;
+            this[plugin.name] = plugin;
+            this[index] = plugin;
+        }
+        item(index) {
+            // This behavior is done to emulate a 32-bit uint,
+            // which browsers use. Cloudflare's anti-bot
+            // checks rely on this.
+            return this.__plugins[index >>> 0];
+        }
+        namedItem(name) {
+            return this.__namedPlugins[name];
+        }
+        refresh() {
+            // Nothing to do, we just need to define the method.
+        }
+        [Symbol.iterator]() {
+            return this.__plugins[Symbol.iterator]();
+        }
+        get length() {
+            return this.__plugins.length;
+        }
+    }
+    /**
+     * A fake plugin designed to trigger Flash detection scripts.
+     */
+    const FLASH_PLUGIN = new RufflePlugin("Shockwave Flash", "Shockwave Flash 32.0 r0", "ruffle.js");
+    /**
+     * A fake plugin designed to allow early detection of if the Ruffle extension is in use.
+     */
+    const RUFFLE_EXTENSION = new RufflePlugin("Ruffle Extension", "Ruffle Extension", "ruffle.js");
+    FLASH_PLUGIN.install({
+        type: FUTURESPLASH_MIMETYPE,
+        description: "Shockwave Flash",
+        suffixes: "spl",
+        enabledPlugin: FLASH_PLUGIN,
+    });
+    FLASH_PLUGIN.install({
+        type: FLASH_MIMETYPE,
+        description: "Shockwave Flash",
+        suffixes: "swf",
+        enabledPlugin: FLASH_PLUGIN,
+    });
+    FLASH_PLUGIN.install({
+        type: FLASH7_AND_8_MIMETYPE,
+        description: "Shockwave Flash",
+        suffixes: "swf",
+        enabledPlugin: FLASH_PLUGIN,
+    });
+    FLASH_PLUGIN.install({
+        type: FLASH_MOVIE_MIMETYPE,
+        description: "Shockwave Flash",
+        suffixes: "swf",
+        enabledPlugin: FLASH_PLUGIN,
+    });
+    RUFFLE_EXTENSION.install({
+        type: "",
+        description: "Ruffle Detection",
+        suffixes: "",
+        enabledPlugin: RUFFLE_EXTENSION,
+    });
+    function installPlugin(plugin) {
+        if (!("install" in navigator.plugins) || !navigator.plugins["install"]) {
+            Object.defineProperty(navigator, "plugins", {
+                value: new RufflePluginArray(navigator.plugins),
+                writable: false,
+            });
+        }
+        const plugins = navigator.plugins;
+        plugins.install(plugin);
+        if (plugin.length > 0 &&
+            (!("install" in navigator.mimeTypes) || !navigator.mimeTypes["install"])) {
+            Object.defineProperty(navigator, "mimeTypes", {
+                value: new RuffleMimeTypeArray(navigator.mimeTypes),
+                writable: false,
+            });
+        }
+        const mimeTypes = navigator.mimeTypes;
+        for (let i = 0; i < plugin.length; i += 1) {
+            mimeTypes.install(plugin[i]);
+        }
+    }
+
+    installPlugin(FLASH_PLUGIN);
+    installPlugin(RUFFLE_EXTENSION);
+})();
+</script><head><meta http-equiv="Content-Type" content="text/html; charset=GBK">
+
+<title>匿名聊天室！</title>
+<link href="./simple.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="./jquery.js.下载"></script>
+<script type="text/javascript" src="./js.js.下载"></script>
+<script type="text/javascript" src="./chat.js.下载"></script>
+<style type="text/css">@font-face { font-family: TencentSans; src: url("chrome-extension://bcgpmkngbhpgdgbjgbaoddljkbabdkmm/static/fonts/TencentSans.woff2"); }</style></head><fatkun-drop-panel style="display: none;"><template shadowrootmode="open">
+    <style>
+        .fatkun-drop-area {
+            user-select: none;
+            font-family: "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft Yahei", "&#229;&#190;&#174;è&#189;&#175;é&#8250;…é&#187;‘", "Helvetica Neue", Helvetica, Arial, Arial, sans-serif;
+            font-weight: 400;
+            z-index: 2147483647;
+            position: fixed;
+            top: -999999px;
+            left: -999999px;
+            width: 400px;
+            text-align: center;
+            transition: background 0.1s ease-in-out, opacity 0.1s ease-in-out, transform 0.2s ease-in-out, border 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+            opacity: 0;
+            padding: 0;
+            transform: translateY(10px);
+            border-radius: 10px;
+            box-sizing: border-box;
+            opacity: 1;
+            background: #fff;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.20);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+        }
+
+        .fatkun-drop-area.show {
+            transition: transform 50ms ease;
+            transform: translateY(0px);
+        }
+
+        #fatkun-drop-area-overlay {
+            z-index: 1147483646;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            background: rgba(33, 33, 33, 0.5);
+            user-select: none;
+            pointer-events: none;
+            transition: opacity 50ms ease;
+        }
+
+        #fatkun-drop-area-overlay.show {
+            opacity: 1;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content {
+            display: flex;
+            text-align: left;
+            flex-direction: row;
+            flex-shrink: initial;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .fatkun-left-panel {
+            position: relative;
+            min-width: 200px;
+            width: 200px;
+            min-height: 200px;
+            align-items: center;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .fatkun-left-panel .fatkun-drop-area-item {
+            text-align: center;
+            display: flex;
+            flex-shrink: initial;
+            flex-direction: row;
+            align-items: center;
+            background-color: #f1f2f4;
+            border-radius: 0;
+            padding: 0 16px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: auto !important;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .fatkun-left-panel .fatkun-drop-area-item.dragenter {
+            background-color: #e1e2e4;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .fatkun-left-panel .fatkun-drop-area-item .title {
+            font-size: 14px !important;
+            overflow: initial !important;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .fatkun-right-panel {
+            padding: 5px;
+            flex: 1;
+            max-width: calc(100% - 200px);
+        }
+
+        .fatkun-drop-area.old-version {
+            width: 200px;
+        }
+
+        .fatkun-drop-area.old-version .fatkun-drop-area-content .fatkun-left-panel .fatkun-drop-area-item {
+            right: 0;
+        }
+
+        .fatkun-drop-area.old-version .fatkun-drop-area-content .fatkun-right-panel {
+            display: none;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .fatkun-drop-area-item {
+            height: 32px;
+            display: flex !important;
+            align-items: center !important;
+            border-radius: 5px;
+            padding: 0 12px;
+            transition: all 80ms ease;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .fatkun-right-panel .fatkun-drop-area-item .title {
+            align-self: flex-start !important;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .fatkun-drop-area-item.all {
+            /*padding: 20px 12px;*/
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .fatkun-drop-area-item.dragenter {
+            background-color: #f1f2f4;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .fatkun-drop-area-item * {
+            pointer-events: none;
+            flex-shrink: initial;
+            max-width: 100%;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content hr {
+            border: 0 !important;
+            height: 1px !important;
+            margin: 5px 0 !important;
+            background-color: #e9e9e9 !important;
+            display: block !important;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .icon {
+            height: 32px;
+            width: 32px;
+            line-height: 32px;
+            text-align: center;
+            margin: 0 auto 20px !important;
+            background: rgba(128, 128, 128, 0.20);
+            border-radius: 50%;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .icon .fake-svg {
+            -webkit-mask: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxM3B4IiBoZWlnaHQ9IjE1cHgiIHZpZXdCb3g9IjAgMCAxMyAxNSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5pY19kb3dubG9hZF9ub3JtYWw8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4gICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+ICAgICAgICA8ZyBpZD0i5paw54mI5pys5ouW5ou95qaC5b+1LS0t5ouW5ou96Kem5Y+RIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtODE0LjAwMDAwMCwgLTM2Mi4wMDAwMDApIiBmaWxsPSIjMzMzMzMzIj4gICAgICAgICAgICA8ZyBpZD0iR3JvdXAtMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzA5LjAwMDAwMCwgMjg5LjAwMDAwMCkiPiAgICAgICAgICAgICAgICA8ZyBpZD0iR3JvdXAtNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjUuMDAwMDAwLCA2MS4wMDAwMDApIj4gICAgICAgICAgICAgICAgICAgIDxnIGlkPSJHcm91cC02IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2Ny40NTAwMDAsIDAuMDAwMDAwKSI+ICAgICAgICAgICAgICAgICAgICAgICAgPGcgaWQ9ImFycm93LWRvd24iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyLjM1MDAwMCwgMTIuMzUwMDAwKSI+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJpY19kb3dubG9hZF9ub3JtYWwiIHBvaW50cz0iNi42NSAxMy43NzUgMC40NzUgNy42IDMuOCA3LjYgMy44IDAgOS41IDAgOS41IDcuNiAxMi44MjUgNy42Ij48L3BvbHlnb24+ICAgICAgICAgICAgICAgICAgICAgICAgPC9nPiAgICAgICAgICAgICAgICAgICAgPC9nPiAgICAgICAgICAgICAgICA8L2c+ICAgICAgICAgICAgPC9nPiAgICAgICAgPC9nPiAgICA8L2c+PC9zdmc+) no-repeat center center;
+            /*background: #333;*/
+            height: 32px;
+            width: 32px;
+            background: #666;
+            transition: all 0.3s ease-in-out;
+            animation: icon-jump 1.5s ease 0s infinite normal;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .title {
+            font-family: "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft Yahei", "&#229;&#190;&#174;è&#189;&#175;é&#8250;…é&#187;‘", "Helvetica Neue", Helvetica, Arial, Arial, sans-serif;
+            font-size: 12px !important;
+            font-weight: 400 !important;
+            line-height: 32px !important;
+            overflow: hidden !important;
+            white-space: nowrap !important;
+            text-overflow: ellipsis !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+            color: #111 !important;
+            margin: 0 !important;
+            display: block !important;
+            transition: all 0.3s ease-in-out;
+            max-width: 100%;
+        }
+
+        .fatkun-drop-area .fatkun-drop-area-content .description {
+            font-family: "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft Yahei", "&#229;&#190;&#174;è&#189;&#175;é&#8250;…é&#187;‘", "Helvetica Neue", Helvetica, Arial, Arial, sans-serif;
+            font-size: 12px !important;
+            font-weight: 400 !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+            margin-top: 12px !important;
+            margin-bottom: 0 !important;
+            line-height: 1.5 !important;
+            color: #111 !important;
+            opacity: 0.6;
+            transition: all 0.3s ease-in-out;
+            max-width: 100%;
+        }
+
+        .fatkun-drop-area.dragover {
+            opacity: 1;
+        }
+
+        @media (prefers-color-scheme: dark) {
+
+            .fatkun-drop-area {
+                background: rgba(37, 37, 40, 0.98);
+                box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.20);
+                border: none;
+            }
+
+            #fatkun-drop-area-overlay {
+                background: rgba(72, 72, 72, 0.3);
+            }
+
+            .fatkun-drop-area .fatkun-drop-area-content .fatkun-right-panel {
+                background-color: rgba(255, 255, 255, 0.05);
+            }
+
+            .fatkun-drop-area .fatkun-drop-area-content .fatkun-right-panel .fatkun-drop-area-item.dragenter {
+                background-color: rgba(255, 255, 255, 0.10);
+            }
+
+            .fatkun-drop-area .fatkun-drop-area-content .fatkun-left-panel .fatkun-drop-area-item {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+
+            .fatkun-drop-area .fatkun-drop-area-content .fatkun-left-panel .fatkun-drop-area-item.dragenter {
+                background-color: rgba(255, 255, 255, 0.10);
+            }
+
+            .fatkun-drop-area .fatkun-drop-area-content hr {
+                background-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .fatkun-drop-area .fatkun-drop-area-content .title {
+                color: #fff !important;
+            }
+
+            .fatkun-drop-area .fatkun-drop-area-content .description {
+                color: #fff !important;
+                opacity: 0.7;
+            }
+
+            .fatkun-drop-area .fatkun-drop-area-content .icon {
+                background: rgba(255, 255, 255, 0.10);
+            }
+
+            .fatkun-drop-area .fatkun-drop-area-content .icon .fake-svg {
+                background: #fff;
+            }
+
+        }
+
+        @keyframes icon-jump {
+            0% {
+                transform: translateY(0);
+            }
+
+            20% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-20px);
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            60% {
+                transform: translateY(-7px);
+            }
+
+            80% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .fatkun-drop-bottom-area {
+            font-family: "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft Yahei", "&#229;&#190;&#174;è&#189;&#175;é&#8250;…é&#187;‘", "Helvetica Neue", Helvetica, Arial, Arial, sans-serif;
+            font-weight: 400;
+            z-index: 2147483647;
+            position: fixed;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            height: 120px;
+            text-align: center;
+            transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out, border 0.3s ease-in-out, box-shadow 0.2s ease-in-out;
+            -webkit-perspective: 1000;
+            transform: translateY(100%);
+            background: #303034;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            box-sizing: border-box;
+        }
+
+        .fatkun-drop-bottom-area .fatkun-drop-area-content {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fatkun-drop-bottom-area .fatkun-drop-area-content .icon {
+            height: 44px;
+            width: 44px;
+            line-height: 44px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.20);
+            border-radius: 50%;
+            transition: all 0.3s ease-in-out;
+            margin-right: 24px;
+        }
+
+        .fatkun-drop-bottom-area .fatkun-drop-area-content .icon .fake-svg {
+            -webkit-mask: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxM3B4IiBoZWlnaHQ9IjE1cHgiIHZpZXdCb3g9IjAgMCAxMyAxNSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5pY19kb3dubG9hZF9ub3JtYWw8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4gICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+ICAgICAgICA8ZyBpZD0i5paw54mI5pys5ouW5ou95qaC5b+1LS0t5ouW5ou96Kem5Y+RIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtODE0LjAwMDAwMCwgLTM2Mi4wMDAwMDApIiBmaWxsPSIjMzMzMzMzIj4gICAgICAgICAgICA8ZyBpZD0iR3JvdXAtMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzA5LjAwMDAwMCwgMjg5LjAwMDAwMCkiPiAgICAgICAgICAgICAgICA8ZyBpZD0iR3JvdXAtNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjUuMDAwMDAwLCA2MS4wMDAwMDApIj4gICAgICAgICAgICAgICAgICAgIDxnIGlkPSJHcm91cC02IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2Ny40NTAwMDAsIDAuMDAwMDAwKSI+ICAgICAgICAgICAgICAgICAgICAgICAgPGcgaWQ9ImFycm93LWRvd24iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyLjM1MDAwMCwgMTIuMzUwMDAwKSI+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJpY19kb3dubG9hZF9ub3JtYWwiIHBvaW50cz0iNi42NSAxMy43NzUgMC40NzUgNy42IDMuOCA3LjYgMy44IDAgOS41IDAgOS41IDcuNiAxMi44MjUgNy42Ij48L3BvbHlnb24+ICAgICAgICAgICAgICAgICAgICAgICAgPC9nPiAgICAgICAgICAgICAgICAgICAgPC9nPiAgICAgICAgICAgICAgICA8L2c+ICAgICAgICAgICAgPC9nPiAgICAgICAgPC9nPiAgICA8L2c+PC9zdmc+) no-repeat center center;
+            height: 44px;
+            width: 44px;
+            background: #fff;
+            transition: all 0.3s ease-in-out;
+            animation: icon-jump 1s ease 0s infinite normal;
+        }
+
+        .fatkun-drop-bottom-area .fatkun-drop-area-content .title {
+            font-family: "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft Yahei", "&#229;&#190;&#174;è&#189;&#175;é&#8250;…é&#187;‘", "Helvetica Neue", Helvetica, Arial, Arial, sans-serif;
+            font-size: 18px !important;
+            font-weight: 500 !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+            color: #fff !important;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .fatkun-drop-bottom-area.show {
+            opacity: 0.8;
+            transform: translateY(0) scale3d(1, 1, 1);
+        }
+
+        .fatkun-drop-bottom-area.dragover {
+            opacity: 0.95;
+        }
+        #fatkun-drop-panel-close-btn{
+            z-index: 1;
+            display: block;
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            font-size: 24px;
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            line-height: 24px;
+        }
+    </style>
+
+    <div id="fatkun-drop-area" class="fatkun-drop-area old-version" style="left: 7px;top: 0;">
+        <div id="fatkun-drop-panel-close-btn">×</div>
+        <div class="fatkun-drop-area-content">
+            <div class="fatkun-left-panel">
+                <div class="fatkun-drop-area-item" folder-id="">
+                    <div>
+                        <div class="icon">
+                            <div class="fake-svg"></div>
+                        </div>
+                        <div class="title">Drag and drop</div>
+                        <div class="description">The image dropped here will be downloaded by Fatkun</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fatkun-right-panel">
+                <div id="fatkun-drop-area-folders">
+                </div>
+                <div class="fatkun-drop-area-item" folder-id="choose">
+                    <div class="title">Choose folder...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="fatkun-drop-area-overlay" class="" style="
+    opacity: 1;
+"></div>
+</template></fatkun-drop-panel>
+<body style="background:#ffffff;margin:10px auto auto auto;text-align:center;">
+<!-- ImageReady Slices (talk.psd) -->
+<div id="container">
+	<div style="margin:0px;background-color:#eee;padding:5px;">匿名聊天室(<span id="isonline">张三 已经登录!<a href="http://www.560565.com/chatroom/#" onclick="logout();">退出聊天室</a></span>) 
+
+        <a href="javascript:void(0);" onclick="scrollB();" id="scro">锁定信息</a>
+        <a href="javascript:void(0);" id="Img1" onclick="Voice();">关闭声音提示</a>
+        <span id="span1"></span><span id="span2">初始化完毕！</span>
+	</div>
+	<div style="clear:right;"></div>
+	<div id="left">
+			<div id="content">
+<font color="red">欢迎进入聊天室,请文明聊天!谢谢!</font><br>
+<div style="line-height:180%;padding:3px;"><span style="color:gray;">达瓦里氏</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-20 10:22:15 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">有人吗？</font></div><div style="line-height:180%;background:rgb(253,253,253);border:1px rgb(250,250,250) solid;padding:3px;"><span style="color:gray;">达瓦里氏</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-20 10:22:22 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">好无聊</font></div><div style="line-height:180%;padding:3px;"><span style="color:gray;">123</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-20 10:24:54 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">哦</font></div><div style="line-height:180%;background:rgb(253,253,253);border:1px rgb(250,250,250) solid;padding:3px;"><span style="color:gray;">123</span> 对 <span style="color:gray;">达瓦里氏</span> 说 <font color="gray">2023-7-20 10:27:19 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">你好</font></div><div style="line-height:180%;padding:3px;"><span style="color:gray;">达瓦里氏</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-20 10:27:43 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">你好</font></div><div style="line-height:180%;background:rgb(253,253,253);border:1px rgb(250,250,250) solid;padding:3px;"><span style="color:gray;">达瓦里氏</span> 对 <span style="color:gray;">123</span> 说 <font color="gray">2023-7-20 10:27:56 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">今年高寿</font></div><div style="line-height:180%;padding:3px;"><span style="color:gray;">达瓦里氏</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-20 10:28:28 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">你们好</font></div><div style="line-height:180%;background:rgb(253,253,253);border:1px rgb(250,250,250) solid;padding:3px;"><span style="color:gray;">baba</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-20 17:53:47 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">有人吗</font></div><div style="line-height:180%;padding:3px;"><span style="color:gray;">baba</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-20 17:54:00 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">怎么没有人呢</font></div><div style="line-height:180%;background:rgb(253,253,253);border:1px rgb(250,250,250) solid;padding:3px;"><span style="color:gray;">唐僧洗发用飘柔</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-20 20:16:00 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">有的</font></div><div style="line-height:180%;padding:3px;"><span style="color:gray;">唐僧洗发用飘柔</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-20 20:16:31 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">二十年前也有这个样子的聊天室吗</font></div><div style="line-height:180%;background:rgb(253,253,253);border:1px rgb(250,250,250) solid;padding:3px;"><span style="color:gray;">seeor</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-21 8:03:35 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">还有这么复古的聊天室。。。。</font></div><div style="line-height:180%;padding:3px;"><span style="color:gray;">13</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-21 15:32:54 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">有人会java吗？</font></div><div style="line-height:180%;background:rgb(253,253,253);border:1px rgb(250,250,250) solid;padding:3px;"><span style="color:gray;">13</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-21 15:33:05 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">加我QQ</font></div><div style="line-height:180%;padding:3px;"><span style="color:gray;">13</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-21 15:33:14 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">184436790</font></div><div style="line-height:180%;background:rgb(253,253,253);border:1px rgb(250,250,250) solid;padding:3px;"><span style="color:gray;">13</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-21 15:33:36 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">谢谢</font></div><div style="line-height:180%;padding:3px;"><span style="color:gray;">13</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-21 15:33:46 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color=""></font><img src="./0.gif" alt="face/0.gif"></div><div style="line-height:180%;background:rgb(253,253,253);border:1px rgb(250,250,250) solid;padding:3px;"><span style="color:gray;">小小千惠</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-22 9:35:57 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color=""></font><img src="./36.gif" alt="face/36.gif"></div><div style="line-height:180%;padding:3px;"><span style="color:gray;">张三</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-22 12:36:05 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">我不会java，我会VB</font></div><div style="line-height:180%;background:rgb(253,253,253);border:1px rgb(250,250,250) solid;padding:3px;"><span style="color:gray;">张三</span> 对 <a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a> 说 <font color="gray">2023-7-22 12:36:39 </font><br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="">你有什么项目吗？</font></div></div>
+	</div>
+		
+	<div id="right">
+		<div style="margin:10px 10px 0 10px;line-height:150%;">
+		</div> 
+  		<div id="user_online">·<a href="http://www.560565.com/chatroom/#" onclick="setTo(&#39;大家&#39;);">大家</a><br>·张三  <span style="color:gray;">300/234</span> <br></div>
+	</div>
+	<div style="clear:left;"></div>
+	<div id="user_box">	
+		<input name="stowho" type="text" readonly="readonly" style="width:60px;background:none;" value="大家">
+        <input type="hidden" name="sfcolor">
+        <a href="http://www.560565.com/chatroom/#" onclick="showMenu(0,this);"><img id="talkcolor" src="./color.gif" alt="选择聊天颜色" style="margin-top:1px;"></a>
+        <input type="hidden" name="slist">
+        <a href="http://www.560565.com/chatroom/#" onclick="showMenu(1,this);"><img id="talkface" src="./face.gif" alt="选择聊天表情" style="margin-top:1px;"></a>
+		<span id="usersinfo" style="display: none;">临时昵称 : <input type="text" name="username"> <input class="but" type="button" value="登录聊天室" onclick="login();"></span> 
+		<div id="talkcontent">
+			<input name="smess" type="text" style="height:20px;width:650px;">
+			<input id="send" type="button" value="发送信息" onclick="sendMessage(this);" style="padding:4px 5px 0px 5px;">
+		</div>
+	</div>
+</div>
+
+<div id="editor_color_menu"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#000000" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#000033" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#000066" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#000099" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#0000CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#0000FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#003300" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#003333" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#003366" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#003399" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#0033CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#0033FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#006600" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#006633" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#006666" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#006699" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#0066CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#0066FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#009900" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#009933" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#009966" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#009999" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#0099CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#0099FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00CC00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00CC33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00CC66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00CC99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00CCCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00CCFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00FF00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00FF33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00FF66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00FF99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00FFCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#00FFFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#330000" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#330033" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#330066" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#330099" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#3300CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#3300FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#333300" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#333333" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#333366" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#333399" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#3333CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#3333FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#336600" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#336633" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#336666" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#336699" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#3366CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#3366FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#339900" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#339933" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#339966" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#339999" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#3399CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#3399FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33CC00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33CC33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33CC66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33CC99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33CCCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33CCFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33FF00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33FF33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33FF66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33FF99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33FFCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#33FFFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#660000" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#660033" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#660066" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#660099" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#6600CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#6600FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#663300" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#663333" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#663366" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#663399" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#6633CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#6633FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#666600" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#666633" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#666666" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#666699" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#6666CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#6666FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#669900" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#669933" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#669966" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#669999" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#6699CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#6699FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66CC00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66CC33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66CC66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66CC99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66CCCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66CCFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66FF00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66FF33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66FF66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66FF99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66FFCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#66FFFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#990000" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#990033" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#990066" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#990099" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#9900CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#9900FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#993300" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#993333" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#993366" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#993399" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#9933CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#9933FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#996600" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#996633" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#996666" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#996699" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#9966CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#9966FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#999900" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#999933" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#999966" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#999999" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#9999CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#9999FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99CC00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99CC33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99CC66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99CC99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99CCCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99CCFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99FF00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99FF33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99FF66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99FF99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99FFCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#99FFFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC0000" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC0033" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC0066" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC0099" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC00CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC00FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC3300" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC3333" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC3366" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC3399" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC33CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC33FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC6600" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC6633" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC6666" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC6699" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC66CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC66FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC9900" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC9933" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC9966" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC9999" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC99CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CC99FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCCC00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCCC33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCCC66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCCC99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCCCCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCCCFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCFF00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCFF33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCFF66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCFF99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCFFCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#CCFFFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF0000" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF0033" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF0066" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF0099" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF00CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF00FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF3300" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF3333" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF3366" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF3399" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF33CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF33FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF6600" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF6633" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF6666" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF6699" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF66CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF66FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF9900" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF9933" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF9966" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF9999" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF99CC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FF99FF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFCC00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFCC33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFCC66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFCC99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFCCCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFCCFF" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFFF00" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFFF33" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFFF66" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFFF99" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFFFCC" onclick="setColor(this);"><input type="button" style="border:0px;margin:1px;width:10px;height:10px;background-color:#FFFFFF" onclick="setColor(this);"></div>
+
+<div id="editor_face_menu"><img src="./0.gif" alt="" onclick="setFace(this);"> <img src="./1.gif" alt="" onclick="setFace(this);"> <img src="./2.gif" alt="" onclick="setFace(this);"> <img src="./3.gif" alt="" onclick="setFace(this);"> <img src="./4.gif" alt="" onclick="setFace(this);"> <img src="./5.gif" alt="" onclick="setFace(this);"> <img src="./6.gif" alt="" onclick="setFace(this);"> <img src="./7.gif" alt="" onclick="setFace(this);"> <img src="./8.gif" alt="" onclick="setFace(this);"> <img src="./9.gif" alt="" onclick="setFace(this);"> <img src="./10.gif" alt="" onclick="setFace(this);"> <img src="./11.gif" alt="" onclick="setFace(this);"> <img src="./12.gif" alt="" onclick="setFace(this);"> <img src="./13.gif" alt="" onclick="setFace(this);"> <img src="./14.gif" alt="" onclick="setFace(this);"> <img src="./15.gif" alt="" onclick="setFace(this);"> <img src="./16.gif" alt="" onclick="setFace(this);"> <img src="./17.gif" alt="" onclick="setFace(this);"> <img src="./18.gif" alt="" onclick="setFace(this);"> <img src="./19.gif" alt="" onclick="setFace(this);"> <img src="./20.gif" alt="" onclick="setFace(this);"> <img src="./21.gif" alt="" onclick="setFace(this);"> <img src="./22.gif" alt="" onclick="setFace(this);"> <img src="./23.gif" alt="" onclick="setFace(this);"> <img src="./24.gif" alt="" onclick="setFace(this);"> <img src="./25.gif" alt="" onclick="setFace(this);"> <img src="./26.gif" alt="" onclick="setFace(this);"> <img src="./27.gif" alt="" onclick="setFace(this);"> <img src="./28.gif" alt="" onclick="setFace(this);"> <img src="./29.gif" alt="" onclick="setFace(this);"> <img src="./30.gif" alt="" onclick="setFace(this);"> <img src="./31.gif" alt="" onclick="setFace(this);"> <img src="./32.gif" alt="" onclick="setFace(this);"> <img src="./33.gif" alt="" onclick="setFace(this);"> <img src="./34.gif" alt="" onclick="setFace(this);"> <img src="./35.gif" alt="" onclick="setFace(this);"> <img src="./36.gif" alt="" onclick="setFace(this);"> <img src="./37.gif" alt="" onclick="setFace(this);"> <img src="./38.gif" alt="" onclick="setFace(this);"> <img src="./39.gif" alt="" onclick="setFace(this);"> <img src="./40.gif" alt="" onclick="setFace(this);"> <img src="./41.gif" alt="" onclick="setFace(this);"> <img src="./42.gif" alt="" onclick="setFace(this);"> <img src="./43.gif" alt="" onclick="setFace(this);"> <img src="./44.gif" alt="" onclick="setFace(this);"> <img src="./45.gif" alt="" onclick="setFace(this);"> <img src="./46.gif" alt="" onclick="setFace(this);"> <img src="./47.gif" alt="" onclick="setFace(this);"> <img src="./48.gif" alt="" onclick="setFace(this);"> <img src="./49.gif" alt="" onclick="setFace(this);"> </div>
+
+<div id="stip">
+<table border="0" cellpadding="0" cellspacing="0">
+	<tbody><tr>
+		<td>
+			<img src="./2_1.gif" width="16" height="38" alt=""></td>
+		<td style="background:url(img/images/2_2.gif) repeat-x middle;vertical-align:top;font-size:12px;">
+		<div id="tit" style="margin-top:6px;"></div>
+		</td>
+		<td>
+			<img src="./2_3.gif" width="18" height="38" alt=""></td>
+	</tr>
+</tbody></table>
+</div>
+
+<div style="display:none;">
+<object classid="clsid:22D6F312-B0F6-11D0-94AB-0080C74C7E95" id="MediaPlayer1" width="300" height="45">
+              <param name="AutoStart" value="0">
+              <param filename="">
+              <param name="Filename" value="img/msg.wav" valuetype="ref">
+              <param name="PlayCount" value="1">
+</object>
+</div>
+
+
+</body><div id="transmart-crx-shadow-root" style="all: initial;"><template shadowrootmode="open"><div id="transmart-crx-app-container"><div id="transmartTrxPopupContainer" class="trans-ctx--container-popup react-draggable" style="left: 20px; top: 25px; transform: translate(0px, 0px);"><svg class="trans-ctx--icon-trans" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="200" height="200"><path d="M213.333 640v85.333a85.333 85.333 0 0 0 78.934 85.12l6.4.214h128V896h-128A170.667 170.667 0 0 1 128 725.333V640h85.333zM768 426.667 955.733 896h-91.946l-51.243-128H638.037L586.88 896h-91.904l187.69-469.333H768zM725.333 549.76l-53.205 132.907h106.325l-53.12-132.907zm-384-464.427v85.334H512v298.666H341.333v128H256v-128H85.333V170.667H256V85.333h85.333zm384 42.667A170.667 170.667 0 0 1 896 298.667V384h-85.333v-85.333a85.333 85.333 0 0 0-85.334-85.334h-128V128h128zM256 256h-85.333v128H256V256zm170.667 0h-85.334v128h85.334V256z" fill="#fff"></path></svg><div class="trans-ctx--panel-result"><div class="trans-ctx--container-title"><span class="trans-ctx--title-text" id="draggable-header">翻译结果</span><span><select class="trans-ctx--selector-lang"><option value="ar">阿拉伯语</option><option value="de">德语</option><option value="ru">俄语</option><option value="fr">法语</option><option value="fil">菲律宾语</option><option value="km">高棉语</option><option value="ko">韩语</option><option value="lo">老挝语</option><option value="ms">马来语</option><option value="pt">葡萄牙语</option><option value="ja">日语</option><option value="th">泰语</option><option value="tr">土耳其语</option><option value="es">西班牙语</option><option value="it">意大利语</option><option value="id">印度尼西亚语</option><option value="en">英语</option><option value="vi">越南语</option><option value="ct">粤语</option><option value="zh">中文</option></select><select class="trans-ctx--selector-lang"></select><span class="trans-ctx--btn-more">查看更多结果</span><span title="打开设置"><svg class="trans-ctx--icon-setting" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="200" height="200"><path d="M913.94 431.828c-4.877-25.783-20.692-42.456-40.947-42.456h-3.512c-54.731 0-99.248-44.516-99.248-99.263 0-17.295 8.299-37.015 8.62-37.799 10.097-22.722 2.349-50.567-18.08-64.859l-102.7-57.183-1.51-.739c-20.546-8.91-48.667-3.207-63.987 12.754-11.087 11.434-49.307 44.038-78.472 44.038-29.543 0-67.849-33.258-78.992-44.91-15.293-16.076-43.124-22.112-63.902-13.217l-106.357 58.272-1.597 1.016c-20.43 14.234-28.207 42.078-18.165 64.714.346.828 8.676 20.387 8.676 37.914 0 54.747-44.517 99.263-99.247 99.263h-4.15c-19.618 0-35.434 16.672-40.309 42.456-.363 1.814-8.59 45.446-8.59 80.43 0 34.939 8.227 78.555 8.59 80.355 4.875 25.8 20.691 42.487 40.947 42.487h3.512c54.73 0 99.247 44.517 99.247 99.247 0 17.412-8.329 37.058-8.648 37.812-10.07 22.767-2.35 50.568 18.022 64.788l100.756 56.531 1.538.697c20.837 9.171 49.015 3.192 64.25-13.464 14.074-15.208 52.208-46.783 80.21-46.783 30.355 0 69.446 35.347 80.707 47.767 10.387 11.376 26.349 18.227 42.687 18.227 7.632 0 14.857-1.511 21.474-4.354l104.472-57.574 1.538-.99c20.429-14.276 28.207-42.077 18.139-64.727-.35-.842-8.678-20.403-8.678-37.929 0-54.73 44.517-99.247 99.248-99.247h4.094c19.644 0 35.488-16.687 40.365-42.487.348-1.8 8.588-45.416 8.588-80.355 0-34.986-8.24-78.618-8.588-80.432m-50.959 80.43c0 22.606-4.498 51.655-6.56 63.786-82.097 6.732-145.737 75.335-145.737 158.303 0 23.42 7.43 45.851 11.377 56.17l-89.121 49.216c-4.383-4.584-17.326-17.645-34.94-30.762-30.935-22.926-60.595-34.636-88.106-34.636-27.279 0-56.704 11.42-87.494 34.055-17.528 12.77-30.296 25.48-34.766 30.18l-85.724-47.996c4.179-10.84 11.405-32.983 11.405-56.227 0-82.968-63.64-151.571-145.708-158.303-2.09-12.13-6.588-41.18-6.588-63.786 0-22.651 4.498-51.714 6.588-63.844 82.068-6.718 145.708-75.336 145.708-158.304 0-23.288-7.429-45.793-11.376-56.095l91.326-50.19c3.976 3.976 17.006 16.73 34.823 29.412 30.356 21.663 59.261 32.633 86.016 32.633 26.495 0 55.196-10.766 85.347-32.01 17.963-12.623 30.964-25.202 34.736-28.757l87.901 48.825c-3.975 10.244-11.405 32.676-11.405 56.182 0 82.968 63.64 151.586 145.738 158.304 2.062 12.158 6.56 41.338 6.56 63.844"></path><path d="M510.216 365.633c-80.53 0-146.057 65.528-146.057 146.058 0 80.543 65.528 146.043 146.057 146.043 80.53 0 146.057-65.5 146.057-146.043 0-80.53-65.527-146.058-146.057-146.058m86.51 146.058c0 47.693-38.8 86.492-86.51 86.492-47.709 0-86.48-38.799-86.48-86.492 0-47.666 38.771-86.48 86.48-86.48 47.71.001 86.51 38.814 86.51 86.48"></path></svg></span></span><span title="关闭翻译结果面板"><svg class="trans-ctx--icon-close" width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.112 31.112"><path d="M31.112 1.414 29.698 0 15.556 14.142 1.414 0 0 1.414l14.142 14.142L0 29.698l1.414 1.414L15.556 16.97l14.142 14.142 1.414-1.414L16.97 15.556"></path></svg></span></div><div class="trans-ctx--content"><div class="trans-ctx--result-section"><div class="trans-ctx--label">原文：</div><div class="trans-ctx--trs-content trans-ctx--source"></div></div><div class="trans-ctx--result-section"><div class="trans-ctx--label">译文：</div><div class="trans-ctx--trs-content"></div></div></div></div></div></div><link rel="stylesheet" href="chrome-extension://bcgpmkngbhpgdgbjgbaoddljkbabdkmm/static/css/content.css"><style type="text/css">
+    ::-webkit-scrollbar-track-piece {
+      position: absolute;
+      background-color: #fff;
+      border-radius: 0;
+    }
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      height: 50px;
+      background-color: #b8b8b8;
+      border: 2px solid #fff;
+      border-radius: 6px;
+      outline: 2px solid #fff;
+      outline-offset: -2px;
+      -moz-opacity: 0.3;
+      -khtml-opacity: 0.3;
+      opacity: 0.5;
+      filter: alpha(opacity = 30);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      height: 50px;
+      background-color: #878987;
+    }
+  </style></template></div></html>
